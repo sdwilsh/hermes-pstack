@@ -24,7 +24,7 @@ load pstack:setup-pstack
 
 [`pstack:setup-pstack`](../../skills/setup-pstack/SKILL.md) reads your current Hermes config, detects the models you can route to, and asks for a reasoning budget. It also offers to install the official `advanced-delegation` plugin, which lets each subagent run on its own model.
 
-With the plugin, setup maps each pstack role to its own model route. The routes are `pstack-worker`, `pstack-strongest`, and, for a panel, two or more `pstack-panel-*` routes. When setup turns routes on and you have no default route, a task that names no route runs on `pstack-worker`. Setup merges these routes into `delegation.backends.model_map.options` and keeps the routes you already have. To edit them later, run `hermes delegation config`.
+With the plugin, setup maps each pstack role to its own model route. The routes are `pstack-worker`, `pstack-strongest`, and, for a panel, two or more `pstack-panel-*` routes. `pstack:poteto-mode` sends code delegates to `pstack-worker` and the hardest changes and judgment to `pstack-strongest`. When setup turns routes on and you have no default route, a task that names no route runs on `pstack-worker`. Setup merges these routes into `delegation.backends.model_map.options` and keeps the routes you already have. To edit them later, run `hermes delegation config`.
 
 Without the plugin, setup writes one delegate model (`delegation.model`, `delegation.provider`, `delegation.reasoning_effort`). If routes were on and you do not want the plugin enabled, setup switches delegation back to the default backend first. Pick `inherit-parent` to keep delegates on your chat model. A rerun overwrites the same keys. To go back to the default, run `hermes config unset delegation.model`.
 
