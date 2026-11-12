@@ -28,7 +28,7 @@ With the plugin, setup maps each pstack role to its own model route. The routes 
 
 Without the plugin, setup writes one delegate model (`delegation.model`, `delegation.provider`, `delegation.reasoning_effort`). If routes were on and you do not want the plugin enabled, setup switches delegation back to the default backend first. Pick `inherit-parent` to keep delegates on your chat model. A rerun overwrites the same keys. To go back to the default, run `hermes config unset delegation.model`.
 
-Without routes, Hermes runs every delegate on the same delegation model. Panels in `pstack:interrogate` and `pstack:architect` get their independence from separate subagents and distinct prompts. For a multi-model panel, change `delegation.model` between runs.
+With routes, `pstack:interrogate` and `pstack:architect` run one panel member per `pstack-panel-*` route, so each member runs on its own model. Without routes, Hermes runs every delegate on the same delegation model, and panels get their independence from separate subagents and distinct prompts.
 
 ## Accept the verification offer, or don't
 
@@ -44,7 +44,7 @@ pstack spends extra tokens on subagents and review panels. That's the price of t
 
 - Rerun `pstack:setup-pstack` and pick a smaller reasoning budget or cheaper models. A strong model in the main chat with cheaper, faster models in the code roles is a good split.
 - Let a role inherit the parent model so it runs on the chat's own model.
-- Shorten a panel list. Each entry runs one delegate.
+- Keep fewer `pstack-panel-*` routes, but at least two. Each one runs one delegate.
 - Save `pstack:poteto-mode` for work that needs rigor. A small, obvious edit doesn't.
 
 ## Run your first task

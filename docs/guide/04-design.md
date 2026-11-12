@@ -36,7 +36,7 @@ flowchart LR
     H --> I[Verify]
 ```
 
-The runners use the delegate model set by [`pstack:setup-pstack`](../../skills/setup-pstack/SKILL.md). Change `delegation.model` between runs if you want different models in the panel.
+With model routes from [`pstack:setup-pstack`](../../skills/setup-pstack/SKILL.md), `pstack:architect` runs each candidate on its own `pstack-panel-*` route. Without routes, every candidate runs on the one delegate model.
 
 ## Cover slices and races with `pstack:swarm`
 
@@ -54,7 +54,7 @@ Reach for it when parallelism buys coverage or lets independent checks race. Com
 load pstack:interrogate the whole branch, but skeptically. no nitpicks unless it's an actual bug or regression.
 ```
 
-[`pstack:interrogate`](../../skills/interrogate/SKILL.md) gives the change and its intent to adversaries spawned with `delegate_task`, and each tries to break it with a run against the real code. Adversaries find different failures. A finding survives only when rerunning its command shows a failure that breaks the intent. The report lists every verified finding with the adversaries that found it, then what each adversary dropped and why, and applies nothing.
+[`pstack:interrogate`](../../skills/interrogate/SKILL.md) gives the change and its intent to adversaries spawned with `delegate_task`, one per `pstack-panel-*` route when you have routes, and each tries to break it with a run against the real code. Adversaries find different failures. A finding survives only when rerunning its command shows a failure that breaks the intent. The report lists every verified finding with the adversaries that found it, then what each adversary dropped and why, and applies nothing.
 
 Read the Dropped list too. You can override the verdict.
 
