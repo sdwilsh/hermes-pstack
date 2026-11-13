@@ -35,13 +35,13 @@ One `delegate_task` call with three tasks, agent mode (not read-only: reviewers 
 | Tooling | `references/tooling-reviewer.md` |
 | Divergent | `references/divergent-reviewer.md` |
 
-Every task in one `delegate_task` call runs on the Hermes-configured `delegation.model` (set by `pstack:setup-pstack`). There is no per-task model override, so the three lenses get their diversity from the prompt, not the model. For genuine model diversity, run the three lenses as three separate rounds, changing `delegation.model` between rounds.
+When `delegate_task` offers model routes (set up by `pstack:setup-pstack`), run the Tooling reviewer on the `pstack-worker` option and the Judgment and Divergent reviewers on `pstack-strongest`. Otherwise, every task in one `delegate_task` call runs on one delegate model, so the three lenses get their diversity from the prompt, not the model. For genuine model diversity, run the three lenses as three separate rounds, changing `delegation.model` between rounds.
 
 Pass each template verbatim, substituting the transcript content or digest where marked. Reviewers return findings in their task result.
 
 ### 3. Synthesize
 
-One `delegate_task` call, agent mode (not read-only: the synthesizer's quality check spot-verifies citations, which can require MCP access). It runs on the same `delegation.model` as the reviewers unless you deliberately changed it between rounds. Use `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. The synthesizer returns a structured Accepted / Rejected / Backlog list.
+One `delegate_task` call, agent mode (not read-only: the synthesizer's quality check spot-verifies citations, which can require MCP access). It runs on the `pstack-strongest` option when routes exist. Otherwise, it runs on the same delegate model as the reviewers unless you deliberately changed it between rounds. Use `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. The synthesizer returns a structured Accepted / Rejected / Backlog list.
 
 ### 4. Structural enforcement check
 

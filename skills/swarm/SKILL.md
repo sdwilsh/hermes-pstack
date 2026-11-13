@@ -32,7 +32,7 @@ When a task decomposes into independent slices that can run concurrently: review
 
 ### B. Fan Out
 
-Spawn all workers in one `delegate_task` call with multiple tasks. Each brief is self-contained:
+Spawn all workers in one `delegate_task` call with multiple tasks. When `delegate_task` offers model routes (set up by `pstack:setup-pstack`), set each worker's `option` to `pstack-worker`. For a model race with two or more `pstack-panel-*` options, give each arm its own `pstack-panel-*` route, named up front. Each brief is self-contained:
 
 - **Goal**: what this worker produces
 - **Scope/slice**: exactly what subset it covers (file list, module, endpoint)
