@@ -130,7 +130,8 @@ Use Hermes `delegate_task` for code-writing subagents. The session that loads `p
 3. **Write your own summary.** Never pass a subagent's output verbatim to the user. Synthesize, verify, then report.
 4. **Guard context.** Send subagents the minimum context they need. File paths, function signatures, expected behavior. Not the whole conversation.
 5. **Scope narrowly.** Each subagent gets one well-defined slice. If a subagent needs to coordinate with another, you are doing it wrong. Redesign the split.
-6. **Fresh subagents by default.** A fix round, follow-up, retry, or next queue item goes to a fresh `delegate_task` with consolidated scope: the original brief, every later directive, and the prior agent's report. Never trust a "done" summary from an interrupted run. Fire a fresh one instead.
+6. **Fresh subagents by default.** A fix round, follow-up, retry, or next queue item goes to a fresh `delegate_task` with consolidated scope: the original brief, every later directive, and the prior agent's report. Never trust a "done" summary from an interrupted run. Fire a fresh one instead. To correct a child that is still running, steer it with `delegate_task(action='steer', subagent_id=..., message=...)`. When a child returns, Hermes stops every background process it did not hand off, so its next round is always a fresh child.
+7. **Brief code delegates on poteto-mode.** Tell every playbook-step delegate that it is a delegate and that you own the playbook. Tell it to load `skill_view(name='pstack:poteto-mode')` in full before any work, including PRINCIPLES, and to load the leaf `principle-*` skill for each principle it applies. If it cannot load the skill, it stops and tells you. Give it the repository's absolute path. Routed skills (`pstack:how`, `pstack:why`, `pstack:interrogate`, `pstack:reflect`, `pstack:swarm`) write their own briefs. Do not override them.
 
 ## WHEN NOT TO BE LAZY
 
