@@ -27,7 +27,7 @@ Explore the codebase and produce an explanation.
 
 **Simple questions** (single module, one concept): do it in one pass - `search_files` to locate, `read_file` to understand, write the explanation.
 
-**Complex questions** (multi-file subsystem, cross-cutting concern): decompose into 2-4 exploration angles, delegate each as a read-only subagent via `delegate_task`, then synthesize results into a single explanation.
+**Complex questions** (multi-file subsystem, cross-cutting concern): decompose into 2-4 exploration angles, delegate each as a read-only subagent via `delegate_task` (on the `pstack-worker` option when `pstack:setup-pstack` set up model routes), then synthesize results into a single explanation.
 
 ### Critique
 

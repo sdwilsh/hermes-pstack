@@ -25,7 +25,7 @@ The scope is what the user names. Otherwise it is the branch diff from its merge
 
 ## Fan out
 
-Spawn two or three adversaries in parallel with `delegate_task`. Give each its own scratch copy of the repo (a `git clone` or `git worktree add` under the scratch directory) with the scope's uncommitted changes applied, so repros never touch the real checkout. When the delegation config allows another model family, run adversaries on different families. Otherwise vary the angle each one attacks first. Give each adversary the scope, the intent, its copy's absolute path, and this brief:
+Spawn the adversaries in parallel in one `delegate_task` call. When `delegate_task` offers two or more `pstack-panel-*` options (set up by `pstack:setup-pstack`), spawn one adversary per `pstack-panel-*` route and set its `option` to that route. Otherwise spawn two or three, and vary the angle each one attacks first. Give each its own scratch copy of the repo (a `git clone` or `git worktree add` under the scratch directory) with the scope's uncommitted changes applied, so repros never touch the real checkout. Give each adversary the scope, the intent, its copy's absolute path, and this brief:
 
 > Break this change. Prove each finding with a run against the real code, such as a failing test, a repro script, or command output that shows the wrong behavior. For a design or plan, run a prototype or probe the current tree. Keep repros in your own copy. Report each finding with a title, the exact command, the output it printed, and the output the intent requires. Leave out anything you did not run. That covers style, naming, structure, and risks that need a future change to matter. No findings is a valid result.
 
@@ -40,5 +40,5 @@ Adversaries find different failures, so the verdict keeps every verified finding
 ## Output
 
 - **Intent**: the restatement.
-- **Findings**: for each verified finding, the command, its output, how it breaks the intent, and the adversaries that found it. Say "no verified findings" when none survive.
+- **Findings**: for each verified finding, the command, its output, how it breaks the intent, and the adversaries that found it, with their routes. Say "no verified findings" when none survive.
 - **Dropped**: for each adversary, the count of dropped findings and why.

@@ -17,7 +17,7 @@ Investigate the motivation and intent behind code.
 
 Companion to the `how` skill. `how` answers what the code does and how it works. `why` answers what forces led to its shape.
 
-Every investigator and the synthesizer below run on the Hermes-configured `delegation.model` (set by `pstack:setup-pstack`). `delegate_task` has no per-task model override, so model diversity is not available within one round.
+When `delegate_task` offers model routes (set up by `pstack:setup-pstack`), run the investigators on the `pstack-worker` option and the synthesizer on `pstack-strongest`. Otherwise, every investigator and the synthesizer run on one delegate model, so model diversity is not available within one round.
 
 ## Operating Posture
 

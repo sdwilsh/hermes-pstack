@@ -122,15 +122,19 @@ Pattern: `[code] → skipped: [X], add when [Y].`
 Mark deliberate simplifications that cut a real corner with `ponytail:` comments naming the ceiling and upgrade path: `# ponytail: global lock, per-account locks if throughput matters`.
 
 ## DELEGATION
-
-Use Hermes `delegate_task` for code-writing subagents. The session that loads `pstack:poteto-mode` runs the playbook itself. Never delegate the playbook run to a subagent. Rules:
-
 1. **Fan out independent slices in parallel.** Multiple tasks in one delegate_task call for work that does not depend on each other.
 2. **Review every subagent's diff yourself.** You own it. A subagent is a tool, not an authority.
 3. **Write your own summary.** Never pass a subagent's output verbatim to the user. Synthesize, verify, then report.
 4. **Guard context.** Send subagents the minimum context they need. File paths, function signatures, expected behavior. Not the whole conversation.
 5. **Scope narrowly.** Each subagent gets one well-defined slice. If a subagent needs to coordinate with another, you are doing it wrong. Redesign the split.
-6. **Fresh subagents by default.** A fix round, follow-up, retry, or next queue item goes to a fresh `delegate_task` with consolidated scope: the original brief, every later directive, and the prior agent's report. Never trust a "done" summary from an interrupted run. Fire a fresh one instead.
+6. **Fresh subagents by default.** A fix round, follow-up, retry, or next queue item goes to a fresh `delegate_task` with consolidated scope: the original brief, every later directive, and the prior agent's report. Never trust a "done" summary from an interrupted run. Fire a fresh one instead. To correct a child that is still running, steer it with `delegate_task(action='steer', subagent_id=..., message=...)`. When a child returns, Hermes stops every background process it did not hand off, so its next round is always a fresh child.
+7. **Brief code delegates on poteto-mode.** Tell every playbook-step delegate that it is a delegate and that you own the playbook. Tell it to load `skill_view(name='pstack:poteto-mode')` in full before any work, including PRINCIPLES, and to load the leaf `principle-*` skill for each principle it applies. If it cannot load the skill, it stops and tells you. Give it the repository's absolute path. Routed skills (`pstack:how`, `pstack:why`, `pstack:interrogate`, `pstack:reflect`, `pstack:swarm`) write their own briefs. Do not override them.
+8. **Pick the model route for the role.** Go by the `delegate_task` schema, not by what setup did. When it has an `option` parameter, set `pstack-worker` for code delegates and routine helpers. Set `pstack-strongest` for the hardest changes (cross-cutting design, gnarly concurrency, subtle algorithms) and for judgment and prose. Give each panel member its own `pstack-panel-*` route. For a verifier or judge on a different model family, pick the route whose description names a family other than the one that did the work. Set only a name the `option` list shows. When the list has no route for the role, or fewer than two `pstack-panel-*` routes for a panel, omit `option` for those tasks. A task without an `option` runs on the default route, else the parent model. When `delegate_task` has no `option` parameter at all, omit `option`, because Hermes refuses a parameter its backend does not take.
+9. **Stop when delegation is refused.** If `delegate_task` fails with `Delegation backend ... is not installed` or `is unavailable`, no subagent can start. Do not retry. Tell the user, quote the error, and wait for their answer before you delegate again. `is not installed` means the plugin behind the configured backend is disabled or missing. For that error, offer `pstack:setup-pstack`, which asks whether to turn the plugin back on, or else switches back to one delegate model.
+
+Use Hermes `delegate_task` for code-writing subagents. The session that loads `pstack:poteto-mode` runs the playbook itself. Never delegate the playbook run to a subagent. Rules:
+
+
 
 ## WHEN NOT TO BE LAZY
 

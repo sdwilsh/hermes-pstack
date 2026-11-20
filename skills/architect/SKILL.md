@@ -27,7 +27,7 @@ Run `pstack:how` over relevant existing subsystems. Understand what's already th
 
 ### B. Sketch
 
-Delegate 2+ structurally distinct design candidates via `delegate_task`. "Structurally distinct" means different module boundaries, different type hierarchies, or different data flow - not just naming variations.
+Delegate 2+ structurally distinct design candidates via `delegate_task`. When `delegate_task` offers two or more `pstack-panel-*` options (set up by `pstack:setup-pstack`), run one candidate per `pstack-panel-*` route and set its `option` to that route. "Structurally distinct" means different module boundaries, different type hierarchies, or different data flow - not just naming variations.
 
 Each candidate produces, in this order:
 
